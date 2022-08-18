@@ -26478,9 +26478,9 @@ Other versions of this operator: <a href="Changelog.md#Split-1">1</a>, <a href="
 input = np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]).astype(np.float32)
 
 node = onnx.helper.make_node(
-    'Split',
-    inputs=['input'],
-    outputs=['output_1', 'output_2', 'output_3'],
+    "Split",
+    inputs=["input"],
+    outputs=["output_1", "output_2", "output_3"],
     axis=0,
     num_outputs=3
 )
@@ -26529,11 +26529,7 @@ input = np.array(
 ).astype(np.float32)
 
 node = onnx.helper.make_node(
-    'Split',
-    inputs=['input'],
-    outputs=['output_1', 'output_2'],
-    axis=1,
-    num_outputs=2
+    "Split", inputs=["input"], outputs=["output_1", "output_2"], axis=1, num_outputs=2
 )
 
 expected_outputs = [
@@ -26582,10 +26578,7 @@ input = np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]).astype(np.float32)
 
 # If axis is not specified, split is applied on default axis 0
 node = onnx.helper.make_node(
-    'Split',
-    inputs=['input'],
-    outputs=['output_1', 'output_2', 'output_3'],
-    num_outputs=3
+    "Split", inputs=["input"], outputs=["output_1", "output_2", "output_3"], num_outputs=3
 )
 
 expected_outputs = [

@@ -15428,6 +15428,8 @@ data = np.array(
     [
         [[1, 2, 3, 4], [5, 6, 7, 8], [8, 7, 6, 5], [4, 3, 2, 1]],
         [[1, 2, 3, 4], [5, 6, 7, 8], [8, 7, 6, 5], [4, 3, 2, 1]],
+        [[1, 2, 3, 4], [5, 6, 7, 8], [8, 7, 6, 5], [4, 3, 2, 1]],
+        [[8, 7, 6, 5], [4, 3, 2, 1], [1, 2, 3, 4], [5, 6, 7, 8]],
         [[8, 7, 6, 5], [4, 3, 2, 1], [1, 2, 3, 4], [5, 6, 7, 8]],
         [[8, 7, 6, 5], [4, 3, 2, 1], [1, 2, 3, 4], [5, 6, 7, 8]],
     ],
@@ -17717,7 +17719,7 @@ expect(node, inputs=[input, split], outputs=[y for y in expected_outputs], name=
 <summary>1d_opset18</summary>
 
 ```python
-input = np.array([1., 2., 3., 4., 5., 6.]).astype(np.float32)
+input = np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]).astype(np.float32)
 
 node = onnx.helper.make_node(
     'Split',
@@ -17727,8 +17729,17 @@ node = onnx.helper.make_node(
     num_outputs=3
 )
 
-expected_outputs = [np.array([1., 2.]).astype(np.float32), np.array([3., 4.]).astype(np.float32), np.array([5., 6.]).astype(np.float32)]
-expect(node, inputs=[input], outputs=[y for y in expected_outputs], name='test_split_equal_parts_1d')
+expected_outputs = [
+    np.array([1.0, 2.0]).astype(np.float32),
+    np.array([3.0, 4.0]).astype(np.float32),
+    np.array([5.0, 6.0]).astype(np.float32),
+]
+expect(
+    node,
+    inputs=[input],
+    outputs=[y for y in expected_outputs],
+    name="test_split_equal_parts_1d",
+)
 
 split = np.array([2, 4]).astype(np.int64)
 node = onnx.helper.make_node(
@@ -17789,21 +17800,25 @@ expect(node, inputs=[input, split], outputs=[y for y in expected_outputs], name=
 <summary>2d_opset18</summary>
 
 ```python
-input = np.array([[1., 2., 3., 4., 5., 6.],
-                  [7., 8., 9., 10., 11., 12.]]).astype(np.float32)
+input = np.array(
+    [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [7.0, 8.0, 9.0, 10.0, 11.0, 12.0]]
+).astype(np.float32)
 
 node = onnx.helper.make_node(
-    'Split',
-    inputs=['input'],
-    outputs=['output_1', 'output_2'],
-    axis=1,
-    num_outputs=2
+    "Split", inputs=["input"], outputs=["output_1", "output_2"], axis=1, num_outputs=2
 )
 
-expected_outputs = [np.array([[1., 2., 3.], [7., 8., 9.]]).astype(np.float32),
-                    np.array([[4., 5., 6.], [10., 11., 12.]]).astype(np.float32)]
+expected_outputs = [
+    np.array([[1.0, 2.0, 3.0], [7.0, 8.0, 9.0]]).astype(np.float32),
+    np.array([[4.0, 5.0, 6.0], [10.0, 11.0, 12.0]]).astype(np.float32),
+]
 
-expect(node, inputs=[input], outputs=[y for y in expected_outputs], name='test_split_equal_parts_2d')
+expect(
+    node,
+    inputs=[input],
+    outputs=[y for y in expected_outputs],
+    name="test_split_equal_parts_2d",
+)
 
 split = np.array([2, 4]).astype(np.int64)
 node = onnx.helper.make_node(
@@ -17840,14 +17855,21 @@ node = onnx.helper.make_node(
     "Split", inputs=["input"], outputs=["output_1", "output_2", "output_3"]
 )
 
-expected_outputs = [np.array([1., 2.]).astype(np.float32), np.array([3., 4.]).astype(np.float32), np.array([5., 6.]).astype(np.float32)]
-expect(node, inputs=[input], outputs=[y for y in expected_outputs], name='test_split_equal_parts_default_axis', opset_imports=[onnx.helper.make_opsetid("", 13)])
+expected_outputs = [
+    np.array([1.0, 2.0]).astype(np.float32),
+    np.array([3.0, 4.0]).astype(np.float32),
+    np.array([5.0, 6.0]).astype(np.float32),
+]
+expect(
+    node,
+    inputs=[input],
+    outputs=[y for y in expected_outputs],
+    name="test_split_equal_parts_default_axis",
+)
 
 split = np.array([2, 4]).astype(np.int64)
 node = onnx.helper.make_node(
-    'Split',
-    inputs=['input', 'split'],
-    outputs=['output_1', 'output_2']
+    "Split", inputs=["input", "split"], outputs=["output_1", "output_2"]
 )
 
 expected_outputs = [np.array([1., 2.]).astype(np.float32), np.array([3., 4., 5., 6.]).astype(np.float32)]
@@ -17899,9 +17921,9 @@ input = np.array([]).astype(np.float32)
 # Split emtpy tensor to tensors of size zero
 split = np.array([0, 0, 0]).astype(np.int64)
 node = onnx.helper.make_node(
-    'Split',
-    inputs=['input', 'split'],
-    outputs=['output_1', 'output_2', 'output_3']
+    "Split",
+    inputs=["input", "split"],
+    outputs=["output_1", "output_2", "output_3"],
 )
 
 expected_outputs = [np.array([]).astype(np.float32), np.array([]).astype(np.float32), np.array([]).astype(np.float32)]
