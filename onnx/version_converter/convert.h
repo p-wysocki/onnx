@@ -1,5 +1,3 @@
-// Copyright (c) ONNX Project Contributors
-
 /*
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -541,20 +539,9 @@ class DefaultVersionConverter : public BaseVersionConverter {
     /******** 18 -> 19 ********/
     registerAdapter(make_unique<CompatibleAdapter>("Equal", OpSetID(18), OpSetID(19)));
     registerAdapter(make_unique<CompatibleAdapter>("AveragePool", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Cast", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("CastLike", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Constant", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("DequantizeLinear", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Identity", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("If", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Loop", OpSetID(18), OpSetID(19)));
     registerAdapter(make_unique<CompatibleAdapter>("Pad", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("QuantizeLinear", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Reshape", OpSetID(18), OpSetID(19)));
+    registerAdapter("Split", 18, 19, SetAttribute(kmode, "legacy"));
     registerAdapter(make_unique<CompatibleAdapter>("Resize", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Scan", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Shape", OpSetID(18), OpSetID(19)));
-    registerAdapter(make_unique<CompatibleAdapter>("Size", OpSetID(18), OpSetID(19)));
   }
 
   ModelProto convert_version(const ModelProto& mp_in, const OpSetID& initial_version, const OpSetID& target_version)
