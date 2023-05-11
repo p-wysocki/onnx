@@ -555,7 +555,9 @@ class DefaultVersionConverter : public BaseVersionConverter {
     registerAdapter(make_unique<CompatibleAdapter>("Scan", OpSetID(18), OpSetID(19)));
     registerAdapter(make_unique<CompatibleAdapter>("Shape", OpSetID(18), OpSetID(19)));
     registerAdapter(make_unique<CompatibleAdapter>("Size", OpSetID(18), OpSetID(19)));
-    registerAdapter("Split", 18, 19, SetAttribute(kmode, "legacy"));
+
+    /******** 19 -> 20 ********/
+    registerAdapter("Split", 19, 20, SetAttribute(kmode, "legacy"));
   }
 
   ModelProto convert_version(const ModelProto& mp_in, const OpSetID& initial_version, const OpSetID& target_version)

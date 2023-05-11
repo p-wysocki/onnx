@@ -1076,7 +1076,6 @@ class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Reshape);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Scan);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Shape);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Size);
-class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Split);
 
 // Iterate over schema from ai.onnx version 19
 class OpSet_Onnx_ver19 {
@@ -1099,18 +1098,18 @@ class OpSet_Onnx_ver19 {
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Scan)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Shape)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Size)>());
-    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 19, Split)>());
   }
 };
 
 // Forward declarations for ai.onnx version 20
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 20, Split);
 
 // Iterate over schema from ai.onnx version 20
 class OpSet_Onnx_ver20 {
  public:
   static void ForEachSchema(std::function<void(OpSchema&&)> fn) {
     // TODO: Remove after introducing the first schema to opset 20
-    (void)fn;
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 20, Split)>());
   }
 };
 

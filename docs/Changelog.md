@@ -22525,50 +22525,6 @@ This version of the operator has been available since version 18 of the default 
 <dd>Constrain input and output types to any tensor type.</dd>
 </dl>
 
-### <a name="Split-18"></a>**Split-18**</a>
-
-  Split a tensor into a list of tensors, along the specified 'axis'.
-  Either input 'split' or the attribute 'num_outputs' should be specified, but not both.
-  If the attribute 'num_outputs' is specified, then the tensor is split into equal sized parts.
-  If the tensor is not evenly splittable into `num_outputs`, the last chunk will be smaller.
-  If the input 'split' is specified, it indicates the sizes of each output in the split.
-
-#### Version
-
-This version of the operator has been available since version 18 of the default ONNX operator set.
-
-#### Attributes
-
-<dl>
-<dt><tt>axis</tt> : int (default is 0)</dt>
-<dd>Which axis to split on. A negative value means counting dimensions from the back. Accepted range is [-rank, rank-1] where r = rank(input).</dd>
-<dt><tt>num_outputs</tt> : int</dt>
-<dd>Number of outputs to split parts of the tensor into. If the tensor is not evenly splittable the last chunk will be smaller.</dd>
-</dl>
-
-#### Inputs (1 - 2)
-
-<dl>
-<dt><tt>input</tt> (differentiable) : T</dt>
-<dd>The tensor to split</dd>
-<dt><tt>split</tt> (optional, non-differentiable) : tensor(int64)</dt>
-<dd>Optional length of each output. Values should be >= 0.Sum of the values must be equal to the dim value at 'axis' specified.</dd>
-</dl>
-
-#### Outputs (1 - &#8734;)
-
-<dl>
-<dt><tt>outputs</tt> (variadic, differentiable) : T</dt>
-<dd>One or more outputs forming list of tensors after splitting</dd>
-</dl>
-
-#### Type Constraints
-
-<dl>
-<dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(bfloat16), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
-<dd>Constrain input and output types to all tensor types.</dd>
-</dl>
-
 ## Version 19 of the default ONNX operator set
 ### <a name="AveragePool-19"></a>**AveragePool-19**</a>
 
@@ -23869,6 +23825,55 @@ This version of the operator has been available since version 19 of the default 
 <dd>Input tensor can be of arbitrary type.</dd>
 <dt><tt>T1</tt> : tensor(int64)</dt>
 <dd>Constrain output to int64 tensor, which should be a scalar though.</dd>
+</dl>
+
+## Version 20 of the default ONNX operator set
+### <a name="Split-20"></a>**Split-20**</a>
+
+  Split a tensor into a list of tensors, along the specified 'axis'.
+  Either input 'split' or the attribute 'num_outputs' should be specified, but not both.
+  If the attribute 'num_outputs' is specified, then the tensor is split into equal sized parts.
+  If the input 'split' is specified, it indicates the sizes of each output in the split.
+  If the tensor is not evenly splittable into `num_outputs`, the behavior depends on `mode` attribute.
+  If `mode` is set to 'numpy' (default), the last few dimensions sizes will be lowered by one.
+  If 'mode' is set to 'legacy', only the last dimension will be smaller.
+
+#### Version
+
+This version of the operator has been available since version 20 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>axis</tt> : int (default is 0)</dt>
+<dd>Which axis to split on. A negative value means counting dimensions from the back. Accepted range is [-rank, rank-1] where r = rank(input).</dd>
+<dt><tt>mode</tt> : string (default is numpy)</dt>
+<dd>Uneven split mode. Possible values are 'numpy' (default) and 'legacy'.</dd>
+<dt><tt>num_outputs</tt> : int</dt>
+<dd>Number of outputs to split parts of the tensor into. If the tensor is not evenly splittable the last chunk will be smaller.</dd>
+</dl>
+
+#### Inputs (1 - 2)
+
+<dl>
+<dt><tt>input</tt> (differentiable) : T</dt>
+<dd>The tensor to split</dd>
+<dt><tt>split</tt> (optional, non-differentiable) : tensor(int64)</dt>
+<dd>Optional length of each output. Values should be >= 0.Sum of the values must be equal to the dim value at 'axis' specified.</dd>
+</dl>
+
+#### Outputs (1 - &#8734;)
+
+<dl>
+<dt><tt>outputs</tt> (variadic, differentiable) : T</dt>
+<dd>One or more outputs forming list of tensors after splitting</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(bfloat16), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
+<dd>Constrain input and output types to all tensor types.</dd>
 </dl>
 
 # ai.onnx.preview.training

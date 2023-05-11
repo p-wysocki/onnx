@@ -142,7 +142,7 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#Size">Size</a>|<a href="Changelog.md#Size-19">19</a>, <a href="Changelog.md#Size-13">13</a>, <a href="Changelog.md#Size-1">1</a>|
 |<a href="#Slice">Slice</a>|<a href="Changelog.md#Slice-13">13</a>, <a href="Changelog.md#Slice-11">11</a>, <a href="Changelog.md#Slice-10">10</a>, <a href="Changelog.md#Slice-1">1</a>|
 |<a href="#SpaceToDepth">SpaceToDepth</a>|<a href="Changelog.md#SpaceToDepth-13">13</a>, <a href="Changelog.md#SpaceToDepth-1">1</a>|
-|<a href="#Split">Split</a>|<a href="Changelog.md#Split-18">18</a>, <a href="Changelog.md#Split-13">13</a>, <a href="Changelog.md#Split-11">11</a>, <a href="Changelog.md#Split-2">2</a>, <a href="Changelog.md#Split-1">1</a>|
+|<a href="#Split">Split</a>|<a href="Changelog.md#Split-20">20</a>, <a href="Changelog.md#Split-13">13</a>, <a href="Changelog.md#Split-11">11</a>, <a href="Changelog.md#Split-2">2</a>, <a href="Changelog.md#Split-1">1</a>|
 |<a href="#SplitToSequence">SplitToSequence</a>|<a href="Changelog.md#SplitToSequence-11">11</a>|
 |<a href="#Sqrt">Sqrt</a>|<a href="Changelog.md#Sqrt-13">13</a>, <a href="Changelog.md#Sqrt-6">6</a>, <a href="Changelog.md#Sqrt-1">1</a>|
 |<a href="#Squeeze">Squeeze</a>|<a href="Changelog.md#Squeeze-13">13</a>, <a href="Changelog.md#Squeeze-11">11</a>, <a href="Changelog.md#Squeeze-1">1</a>|
@@ -28910,12 +28910,14 @@ expect(node, inputs=[x], outputs=[y], name="test_spacetodepth")
   Split a tensor into a list of tensors, along the specified 'axis'.
   Either input 'split' or the attribute 'num_outputs' should be specified, but not both.
   If the attribute 'num_outputs' is specified, then the tensor is split into equal sized parts.
-  If the tensor is not evenly splittable into `num_outputs`, the last chunk will be smaller.
   If the input 'split' is specified, it indicates the sizes of each output in the split.
+  If the tensor is not evenly splittable into `num_outputs`, the behavior depends on `mode` attribute.
+  If `mode` is set to 'numpy' (default), the last few dimensions sizes will be lowered by one.
+  If 'mode' is set to 'legacy', only the last dimension will be smaller.
 
 #### Version
 
-This version of the operator has been available since version 18 of the default ONNX operator set.
+This version of the operator has been available since version 20 of the default ONNX operator set.
 
 Other versions of this operator: <a href="Changelog.md#Split-1">1</a>, <a href="Changelog.md#Split-2">2</a>, <a href="Changelog.md#Split-11">11</a>, <a href="Changelog.md#Split-13">13</a>
 
@@ -28924,6 +28926,8 @@ Other versions of this operator: <a href="Changelog.md#Split-1">1</a>, <a href="
 <dl>
 <dt><tt>axis</tt> : int (default is 0)</dt>
 <dd>Which axis to split on. A negative value means counting dimensions from the back. Accepted range is [-rank, rank-1] where r = rank(input).</dd>
+<dt><tt>mode</tt> : string (default is numpy)</dt>
+<dd>Uneven split mode. Possible values are 'numpy' (default) and 'legacy'.</dd>
 <dt><tt>num_outputs</tt> : int</dt>
 <dd>Number of outputs to split parts of the tensor into. If the tensor is not evenly splittable the last chunk will be smaller.</dd>
 </dl>

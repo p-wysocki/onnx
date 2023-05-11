@@ -675,19 +675,19 @@ ONNX_OPERATOR_SET_SCHEMA(
           }
         }));
 
-static const char* Split_ver19_doc =
+static const char* Split_ver20_doc =
     R"DOC(Split a tensor into a list of tensors, along the specified 'axis'.
 Either input 'split' or the attribute 'num_outputs' should be specified, but not both.
 If the attribute 'num_outputs' is specified, then the tensor is split into equal sized parts.
 If the input 'split' is specified, it indicates the sizes of each output in the split.
 If the tensor is not evenly splittable into `num_outputs`, the behavior depends on `mode` attribute.
 If `mode` is set to 'numpy' (default), the last few dimensions sizes will be lowered by one.
-If 'mode' is set to 'legacy', the last dimension will be smaller.
+If 'mode' is set to 'legacy', only the last dimension will be smaller.
 )DOC";
 
 ONNX_OPERATOR_SET_SCHEMA(
     Split,
-    19,
+    20,
     OpSchema()
         .Input(0, "input", "The tensor to split", "T", OpSchema::Single, true, 1, OpSchema::Differentiable)
         .Input(
@@ -729,7 +729,7 @@ ONNX_OPERATOR_SET_SCHEMA(
             "Possible values are 'numpy' (default) and 'legacy'.",
             AttributeProto::STRING,
             std::string("numpy"))
-        .SetDoc(Split_ver19_doc)
+        .SetDoc(Split_ver20_doc)
         .TypeAndShapeInferenceFunction([](InferenceContext& ctx) {
           for (int i = 0; i < static_cast<int>(ctx.getNumOutputs()); ++i) {
             propagateElemTypeFromInputToOutput(ctx, 0, i);
@@ -794,13 +794,10 @@ ONNX_OPERATOR_SET_SCHEMA(
                 int chunk_size = split_dim_value / num_outputs;
                 split.resize(num_outputs, chunk_size);
               } else { // tensor needs to be split unevenly
-                const auto mode = ctx.getAttribute("mode");
-                //if (mode != "numpy" && mode != "legacy") {
-                //if (std::strcmp(mode, "numpy") != 0 && std::strcmp(mode, "legacy") != 0)
-                //  fail_shape_inference("Invalid 'mode' attribute value: ", mode);
-                //}
+                const auto mode = ctx.getAttribute("mode")->s();
                 int chunk_size = split_dim_value / num_outputs;
-                if (std::strcmp(mode, "numpy") != 0) {
+                //if (std::strcmp(mode, "numpy") != 0) {
+                if (mode == "numpy") {
                   int reduced_dims = chunk_size % num_outputs;
                   for (int i=0; i<num_outputs-reduced_dims; i++) {
                     split.push_back(chunk_size);
@@ -809,7 +806,7 @@ ONNX_OPERATOR_SET_SCHEMA(
                     split.push_back(chunk_size-1);
                   }
                 } else {
-                  chunk_size++;
+                  int chunk_size = (split_dim_value / num_outputs) + 1;
                   int last_chunk_size = split_dim_value - (chunk_size * (num_outputs - 1));
                   split.resize(num_outputs - 1, chunk_size);
                   split.push_back(last_chunk_size);
