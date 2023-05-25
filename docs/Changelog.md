@@ -23828,17 +23828,6 @@ This version of the operator has been available since version 19 of the default 
 </dl>
 
 ## Version 20 of the default ONNX operator set
-<<<<<<< HEAD
-### <a name="Split-20"></a>**Split-20**</a>
-
-  Split a tensor into a list of tensors, along the specified 'axis'.
-  Either input 'split' or the attribute 'num_outputs' should be specified, but not both.
-  If the attribute 'num_outputs' is specified, then the tensor is split into equal sized parts.
-  If the input 'split' is specified, it indicates the sizes of each output in the split.
-  If the tensor is not evenly splittable into `num_outputs`, the behavior depends on `mode` attribute.
-  If `mode` is set to 'numpy' (default), the last few dimensions sizes will be lowered by one.
-  If 'mode' is set to 'legacy', only the last dimension will be smaller.
-=======
 ### <a name="GridSample-20"></a>**GridSample-20**</a>
 
   Given an input `X` and a flow-field `grid`, computes the output `Y` using `X` values and pixel locations from the `grid`.
@@ -23859,7 +23848,6 @@ This version of the operator has been available since version 19 of the default 
   The GridSample operator is often used in doing grid generator and sampler in the
   [Spatial Transformer Networks](https://arxiv.org/abs/1506.02025).
   See also in [torch.nn.functional.grid_sample](https://pytorch.org/docs/stable/generated/torch.nn.functional.grid_sample.html).
->>>>>>> upstream/main
 
 #### Version
 
@@ -23868,30 +23856,6 @@ This version of the operator has been available since version 20 of the default 
 #### Attributes
 
 <dl>
-<<<<<<< HEAD
-<dt><tt>axis</tt> : int (default is 0)</dt>
-<dd>Which axis to split on. A negative value means counting dimensions from the back. Accepted range is [-rank, rank-1] where r = rank(input).</dd>
-<dt><tt>mode</tt> : string (default is numpy)</dt>
-<dd>Uneven split mode. Possible values are 'numpy' (default) and 'legacy'.</dd>
-<dt><tt>num_outputs</tt> : int</dt>
-<dd>Number of outputs to split parts of the tensor into. If the tensor is not evenly splittable the last chunk will be smaller.</dd>
-</dl>
-
-#### Inputs (1 - 2)
-
-<dl>
-<dt><tt>input</tt> (differentiable) : T</dt>
-<dd>The tensor to split</dd>
-<dt><tt>split</tt> (optional, non-differentiable) : tensor(int64)</dt>
-<dd>Optional length of each output. Values should be >= 0.Sum of the values must be equal to the dim value at 'axis' specified.</dd>
-</dl>
-
-#### Outputs (1 - &#8734;)
-
-<dl>
-<dt><tt>outputs</tt> (variadic, differentiable) : T</dt>
-<dd>One or more outputs forming list of tensors after splitting</dd>
-=======
 <dt><tt>align_corners</tt> : int (default is 0)</dt>
 <dd>If align_corners=1, the extrema (-1 and 1) are considered as referring to the center points of the input's corner pixels (voxels, etc.). If align_corners=0, they are instead considered as referring to the corner points of the input's corner pixels (voxels, etc.), making the sampling more resolution agnostic.</dd>
 <dt><tt>mode</tt> : string (default is linear)</dt>
@@ -23914,21 +23878,63 @@ This version of the operator has been available since version 20 of the default 
 <dl>
 <dt><tt>Y</tt> (differentiable) : T1</dt>
 <dd>Output tensor of rank r+2 that has shape (N, C, D1_out, D2_out, ..., Dr_out) of the sampled values. For integer input types, intermediate values are computed as floating point and cast to integer at the end.</dd>
->>>>>>> upstream/main
 </dl>
 
 #### Type Constraints
 
 <dl>
-<<<<<<< HEAD
-<dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(bfloat16), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
-<dd>Constrain input and output types to all tensor types.</dd>
-=======
 <dt><tt>T1</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
 <dd>Constrain input `X` and output `Y` types to all tensor types.</dd>
 <dt><tt>T2</tt> : tensor(float16), tensor(float), tensor(double)</dt>
 <dd>Constrain grid types to float tensors.</dd>
->>>>>>> upstream/main
+</dl>
+
+### <a name="Split-20"></a>**Split-20**</a>
+
+  Split a tensor into a list of tensors, along the specified 'axis'.
+  Either input 'split' or the attribute 'num_outputs' should be specified, but not both.
+  If the attribute 'num_outputs' is specified, then the tensor is split into equal sized parts.
+  If the input 'split' is specified, it indicates the sizes of each output in the split.
+  If the tensor is not evenly splittable into `num_outputs`, the behavior depends on `mode` attribute.
+  If `mode` is set to 'numpy' (default), the last few dimensions sizes will be lowered by one.
+  If 'mode' is set to 'legacy', only the last dimension will be smaller.
+
+#### Version
+
+This version of the operator has been available since version 20 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>axis</tt> : int (default is 0)</dt>
+<dd>Which axis to split on. A negative value means counting dimensions from the back. Accepted range is [-rank, rank-1] where r = rank(input).</dd>
+<dt><tt>mode</tt> : string (default is numpy)</dt>
+<dd>Uneven split mode. Possible values are 'numpy' (default) and 'legacy'.</dd>
+<dt><tt>num_outputs</tt> : int</dt>
+<dd>Number of outputs to split parts of the tensor into. If the tensor is not evenly splittable the last chunk will be smaller.</dd>
+</dl>
+
+#### Inputs (1 - 2)
+
+<dl>
+<dt><tt>input</tt> (differentiable) : T</dt>
+<dd>The tensor to split</dd>
+<dt><tt>split</tt> (optional, non-differentiable) : tensor(int64)</dt>
+<dd>Optional length of each output. Values should be >= 0.Sum of the values must be equal to the dim value at 'axis' specified.</dd>
+</dl>
+
+#### Outputs (1 - &#8734;)
+
+<dl>
+<dt><tt>outputs</tt> (variadic, differentiable) : T</dt>
+<dd>One or more outputs forming list of tensors after splitting</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(bfloat16), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
+<dd>Constrain input and output types to all tensor types.</dd>
 </dl>
 
 # ai.onnx.preview.training
