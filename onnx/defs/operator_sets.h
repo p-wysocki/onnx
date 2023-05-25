@@ -1108,7 +1108,6 @@ class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 20, Split);
 class OpSet_Onnx_ver20 {
  public:
   static void ForEachSchema(std::function<void(OpSchema&&)> fn) {
-    // TODO: Remove after introducing the first schema to opset 20
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 20, Split)>());
   }
 };
