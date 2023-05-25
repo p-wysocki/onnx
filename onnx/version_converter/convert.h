@@ -22,6 +22,7 @@
 #include "onnx/version_converter/adapters/extend_supported_types.h"
 #include "onnx/version_converter/adapters/gemm_6_7.h"
 #include "onnx/version_converter/adapters/gemm_7_6.h"
+#include "onnx/version_converter/adapters/gridsample_19_20.h"
 #include "onnx/version_converter/adapters/maxpool_8_7.h"
 #include "onnx/version_converter/adapters/no_previous_version.h"
 #include "onnx/version_converter/adapters/pad_10_11.h"
@@ -558,6 +559,7 @@ class DefaultVersionConverter : public BaseVersionConverter {
 
     /******** 19 -> 20 ********/
     registerAdapter("Split", 19, 20, SetAttribute(kmode, "legacy"));
+    registerAdapter(make_unique<GridSample_19_20>());
   }
 
   ModelProto convert_version(const ModelProto& mp_in, const OpSetID& initial_version, const OpSetID& target_version)
