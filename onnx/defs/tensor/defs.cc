@@ -803,7 +803,6 @@ ONNX_OPERATOR_SET_SCHEMA(
                   }
                   while (split.size() <= num_outputs) {
                     split.push_back(chunk_size);
-                    std::cout<<"split_dim_value: "<<split_dim_value<<" chunk_size: "<<chunk_size<<" reduced_dims: "<<reduced_dims;
                   }
                 } else {
                   int chunk_size = (split_dim_value / num_outputs) + 1;
