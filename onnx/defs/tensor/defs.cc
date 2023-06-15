@@ -794,16 +794,15 @@ ONNX_OPERATOR_SET_SCHEMA(
                 int chunk_size = split_dim_value / num_outputs;
                 split.resize(num_outputs, chunk_size);
               } else { // tensor needs to be split unevenly
-                const auto mode = ctx.getAttribute("mode")->s();
+                const auto mode = getAttribute(ctx, "mode", "numpy");
                 int chunk_size = split_dim_value / num_outputs;
-                //if (std::strcmp(mode, "numpy") != 0) {
                 if (mode == "numpy") {
                   int reduced_dims = chunk_size % num_outputs;
                   for (int i=0; i<num_outputs-reduced_dims; i++) {
-                    split.push_back(chunk_size);
+                    split.push_back(chunk_size+1);
                   }
                   while (split.size() <= num_outputs) {
-                    split.push_back(chunk_size-1);
+                    split.push_back(chunk_size);
                   }
                 } else {
                   int chunk_size = (split_dim_value / num_outputs) + 1;
