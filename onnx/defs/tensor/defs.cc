@@ -726,9 +726,9 @@ ONNX_OPERATOR_SET_SCHEMA(
         .Attr(
             "mode",
             "Uneven split mode. "
-            "Possible values are 'numpy' (default) and 'legacy'.",
+            "Possible values are 'torch' (default) and 'legacy'.",
             AttributeProto::STRING,
-            std::string("numpy"))
+            std::string("torch"))
         .SetDoc(Split_ver20_doc)
         .TypeAndShapeInferenceFunction([](InferenceContext& ctx) {
           for (int i = 0; i < static_cast<int>(ctx.getNumOutputs()); ++i) {
@@ -794,15 +794,16 @@ ONNX_OPERATOR_SET_SCHEMA(
                 int chunk_size = split_dim_value / num_outputs;
                 split.resize(num_outputs, chunk_size);
               } else { // tensor needs to be split unevenly
-                const auto mode = getAttribute(ctx, "mode", "numpy");
+                const auto mode = getAttribute(ctx, "mode", "torch");
                 int chunk_size = split_dim_value / num_outputs;
-                if (mode == "numpy") {
-                  int reduced_dims = chunk_size % num_outputs;
+                if (mode == "torch") {
+                  int reduced_dims = num_outputs * (chunk_size + 1) - split_dim_value;
                   for (int i=0; i<num_outputs-reduced_dims; i++) {
                     split.push_back(chunk_size+1);
                   }
                   while (split.size() <= num_outputs) {
                     split.push_back(chunk_size);
+                    std::cout<<"split_dim_value: "<<split_dim_value<<" chunk_size: "<<chunk_size<<" reduced_dims: "<<reduced_dims;
                   }
                 } else {
                   int chunk_size = (split_dim_value / num_outputs) + 1;

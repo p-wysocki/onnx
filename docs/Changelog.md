@@ -23968,8 +23968,8 @@ This version of the operator has been available since version 20 of the default 
 <dl>
 <dt><tt>axis</tt> : int (default is 0)</dt>
 <dd>Which axis to split on. A negative value means counting dimensions from the back. Accepted range is [-rank, rank-1] where r = rank(input).</dd>
-<dt><tt>mode</tt> : string (default is numpy)</dt>
-<dd>Uneven split mode. Possible values are 'numpy' (default) and 'legacy'.</dd>
+<dt><tt>mode</tt> : string (default is torch)</dt>
+<dd>Uneven split mode. Possible values are 'torch' (default) and 'legacy'.</dd>
 <dt><tt>num_outputs</tt> : int</dt>
 <dd>Number of outputs to split parts of the tensor into. If the tensor is not evenly splittable the last chunk will be smaller.</dd>
 </dl>
